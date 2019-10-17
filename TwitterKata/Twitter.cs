@@ -1,21 +1,25 @@
 ﻿using System;
+using System.Linq;
 
 namespace TwitterKata
 {
     public class Twitter
     {
+        private string comment;
         public void Run()
         {
-            var name = Console.ReadLine();
+            var command = Console.ReadLine().Split(" ");
 
-            if (name == "Ana")
+            var action = command.Length > 1 ? command[1] : null;
+
+            if (action == "->")
             {
-                Console.WriteLine("Ana -> Happy birthday!");
+                comment = string.Join(' ',command.Skip(2));
             }
 
-            if (name == "Juan")
+            if (action == null)
             {
-                Console.WriteLine("Juan -> Hello world!");
+                Console.Write(comment);
             }
         }
     }
