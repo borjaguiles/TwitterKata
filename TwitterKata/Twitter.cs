@@ -6,32 +6,61 @@ namespace TwitterKata
 {
     public class Twitter
     {
-        private readonly Dictionary<string,List<string>> _comment = new Dictionary<string, List<string>>();
+        private readonly UserContainer _userContainer = new UserContainer();
+
         public void Run()
         {
             var command = Console.ReadLine().Split(" ");
 
-            var action = command.Length > 1 ? command[1] : null;
-            var name = command[0];
-            if (action == "->")
+            var action = GetActionFromCommand(command);
+            var name = GetNameFromCommand(command);
+            var user = _userContainer.GetUser(name);
+
+            if (user == null)
             {
-                if (_comment.ContainsKey(name))
-                {
-                    _comment[name].Add(string.Join(' ', command.Skip(2)));
-                }
-                else
-                {
-                    _comment.Add(name, new List<string>() { string.Join(' ', command.Skip(2)) });
-                }
+                user = _userContainer.AddNewUser(name);
             }
 
-            if (action == null)
+            if (action == TwitterActions.PostMessage)
             {
-                if (_comment.ContainsKey(name))
-                {
-                    _comment[name].ForEach(Console.WriteLine);
-                }
+                PostMessage(command, user);
             }
+
+            if (action == TwitterActions.ShowUserMessages)
+            {
+                ShowUserMessages(user);
+            }
+        }
+
+        private static void ShowUserMessages(User user)
+        {
+            user.GetMessages().ForEach(Console.WriteLine);
+        }
+
+        private static void PostMessage(string[] command, User user)
+        {
+            string message = string.Join(' ', command.Skip(2));
+            user.AddMessage(message);
+        }
+
+        private static string GetNameFromCommand(string[] command)
+        {
+            return command[0];
+        }
+
+        private TwitterActions GetActionFromCommand(string[] command)
+        {
+            var stringAction = command.Length > 1 ? command[1] : null;
+            if (stringAction == "->")
+            {
+                return TwitterActions.PostMessage;
+            }
+            if (stringAction == null)
+            {
+                return TwitterActions.ShowUserMessages;
+            }
+
+            return TwitterActions.Unknown;
         }
     }
 }
