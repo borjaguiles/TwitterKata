@@ -95,5 +95,27 @@ namespace TwitterKataTests
             //Assert
             Assert.Equal(expected, output.ToString());
         }
+
+        [Fact]
+        public void ShowAllMessagesFromAUserGivenHisName()
+        {
+            //Assert
+            Console.SetIn(new StringReader("Vicen -> Vaya mañanita!"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Vicen -> Hoy birras!"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Vicen -> Vaya resaca!"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Vicen -> Los domingos me suelo jurar..."));
+            twitter.Run();
+            Console.SetIn(new StringReader("Vicen"));
+            string expected = "Vaya mañanita!" + "\r\n" + "Hoy birras!" + "\r\n" + "Vaya resaca!" + "\r\n" +
+                              "Los domingos me suelo jurar..." + "\r\n";
+            //Act
+            twitter.Run();
+
+            //Assert
+            Assert.Equal(expected, output.ToString());
+        }
     }
 }
