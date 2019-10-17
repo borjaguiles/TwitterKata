@@ -39,7 +39,7 @@ namespace TwitterKataTests
             twitter.Run();
 
             //Assert
-            Assert.Equal("Hello world!", output.ToString());
+            Assert.Equal("Hello world!" + "\r\n", output.ToString());
 
         }
 
@@ -57,7 +57,7 @@ namespace TwitterKataTests
             twitter.Run();
 
             //Assert
-            Assert.Equal("Happy birthday!", output.ToString());
+            Assert.Equal("Happy birthday!" + "\r\n", output.ToString());
 
         }
 
@@ -79,8 +79,28 @@ namespace TwitterKataTests
             twitter.Run();
 
             //Assert
-            Assert.Equal(expected, output.ToString());
+            Assert.Equal(expected + "\r\n", output.ToString());
 
+        }
+
+        [Fact]
+        public void ShowTwoMessagesFromAUserGivenHisName()
+        {
+            //Assert
+            Twitter twitter = new Twitter();
+            var output = new StringWriter();
+            Console.SetOut(output);
+            Console.SetIn(new StringReader("Vicen -> Vaya mañanita!"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Vicen -> Hoy birras!"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Vicen"));
+            string expected = "Vaya mañanita!" + "\r\n" + "Hoy birras!" + "\r\n";
+            //Act
+            twitter.Run();
+
+            //Assert
+            Assert.Equal(expected, output.ToString());
         }
     }
 }

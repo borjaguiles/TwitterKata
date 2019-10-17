@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace TwitterKata
 {
     public class Twitter
     {
-        private string comment;
+        private readonly List<string> comment = new List<string>();
         public void Run()
         {
             var command = Console.ReadLine().Split(" ");
@@ -14,12 +15,12 @@ namespace TwitterKata
 
             if (action == "->")
             {
-                comment = string.Join(' ',command.Skip(2));
+                comment.Add(string.Join(' ',command.Skip(2)));
             }
 
             if (action == null)
             {
-                Console.Write(comment);
+                comment.ForEach(Console.WriteLine);
             }
         }
     }
