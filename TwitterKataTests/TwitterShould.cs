@@ -9,6 +9,23 @@ namespace TwitterKataTests
     public class TwitterShould
     {
         [Fact]
+        public void ShowNothingWhenGivenCarlos()
+        {
+            //Assert
+            Twitter twitter = new Twitter();
+            var output = new StringWriter();
+            Console.SetOut(output);
+            Console.SetIn(new StringReader("Carlos"));
+
+            //Act
+            twitter.Run();
+
+            //Assert
+            Assert.Equal("", output.ToString());
+
+        }
+
+        [Fact]
         public void ShowMessageHelloWorldFromJuanWhenGivenJuan()
         {
             //Assert
