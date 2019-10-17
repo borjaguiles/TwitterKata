@@ -30,36 +30,6 @@ namespace TwitterKataTests
 
         }
 
-        [Fact]
-        public void ShowMessageHelloWorldFromJuanWhenGivenJuan()
-        {
-            //Assert
-            Console.SetIn(new StringReader("Juan -> Hello world!"));
-            twitter.Run();
-            Console.SetIn(new StringReader("Juan"));
-            //Act
-            twitter.Run();
-
-            //Assert
-            Assert.Equal("Hello world!" + "\r\n", output.ToString());
-
-        }
-
-        [Fact]
-        public void ShowMessageHappyBirthdayFromAnaWhenGivenAna()
-        {
-            //Assert
-            Console.SetIn(new StringReader("Ana -> Happy birthday!"));
-            twitter.Run();
-            Console.SetIn(new StringReader("Ana"));
-            //Act
-            twitter.Run();
-
-            //Assert
-            Assert.Equal("Happy birthday!" + "\r\n", output.ToString());
-
-        }
-
         [Theory]
         [InlineData("Hello world!", "Juan", "Juan -> Hello world!")]
         [InlineData("Happy birthday!", "Ana", "Ana -> Happy birthday!")]
@@ -80,23 +50,6 @@ namespace TwitterKataTests
         }
 
         [Fact]
-        public void ShowTwoMessagesFromAUserGivenHisName()
-        {
-            //Assert
-            Console.SetIn(new StringReader("Vicen -> Vaya mañanita!"));
-            twitter.Run();
-            Console.SetIn(new StringReader("Vicen -> Hoy birras!"));
-            twitter.Run();
-            Console.SetIn(new StringReader("Vicen"));
-            string expected = "Vaya mañanita!" + "\r\n" + "Hoy birras!" + "\r\n";
-            //Act
-            twitter.Run();
-
-            //Assert
-            Assert.Equal(expected, output.ToString());
-        }
-
-        [Fact]
         public void ShowAllMessagesFromAUserGivenHisName()
         {
             //Assert
@@ -112,6 +65,25 @@ namespace TwitterKataTests
             string expected = "Vaya mañanita!" + "\r\n" + "Hoy birras!" + "\r\n" + "Vaya resaca!" + "\r\n" +
                               "Los domingos me suelo jurar..." + "\r\n";
             //Act
+            twitter.Run();
+
+            //Assert
+            Assert.Equal(expected, output.ToString());
+        }
+
+        [Fact]
+        public void ShowAMessageFromJuanAndAnotherFromAnaWhenGivenFirstJuanThenAna()
+        {
+            //Assert
+            string expected = "Hola" + "\r\n" + "Adios" + "\r\n";
+            Console.SetIn(new StringReader("Juan -> Hola"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Ana -> Adios"));
+            twitter.Run();
+            //Act
+            Console.SetIn(new StringReader("Juan"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Ana"));
             twitter.Run();
 
             //Assert
