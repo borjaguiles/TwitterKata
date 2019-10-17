@@ -72,18 +72,26 @@ namespace TwitterKataTests
         }
 
         [Fact]
-        public void ShowAMessageFromJuanAndAnotherFromAnaWhenGivenFirstJuanThenAna()
+        public void ShowMessagesFromAnyUserGivenItsName()
         {
             //Assert
-            string expected = "Hola" + "\r\n" + "Adios" + "\r\n";
+            string expected = "Hola" + "\r\n" + "Adios" + "\r\n" + "Que tal?" + "\r\n" + "Gracias" + "\r\n";
             Console.SetIn(new StringReader("Juan -> Hola"));
             twitter.Run();
             Console.SetIn(new StringReader("Ana -> Adios"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Lucas -> Que tal?"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Maite -> Gracias"));
             twitter.Run();
             //Act
             Console.SetIn(new StringReader("Juan"));
             twitter.Run();
             Console.SetIn(new StringReader("Ana"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Lucas"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Maite"));
             twitter.Run();
 
             //Assert
