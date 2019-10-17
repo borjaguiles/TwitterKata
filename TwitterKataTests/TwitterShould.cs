@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
+using TwitterKata;
 using Xunit;
 
 namespace TwitterKataTests
@@ -8,22 +9,19 @@ namespace TwitterKataTests
     public class TwitterShould
     {
         [Fact]
-        public void ShowAMessageWhenJuanWritesAMessage()
+        public void ShowMessageHellowWorldFromJuanWhenGivenJuan()
         {
             //Assert
             Twitter twitter = new Twitter();
-
             var output = new StringWriter();
             Console.SetOut(output);
-            var input = new StringReader("Juan -> Hello world!");
             twitter.Run();
+
             //Act
-            Console.SetIn(input);
-            
-            
+            Console.SetIn(new StringReader("Juan"));
 
             //Assert
-            Assert.Equal("Juan -> Hello world!", output.ToString);
+            Assert.Equal("Juan -> Hello world!\r\n", output.ToString());
 
         }
     }

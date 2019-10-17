@@ -2,11 +2,11 @@
 
 namespace TwitterKata
 {
-    class Twitter
+    public class Twitter
     {
         public void Run()
         {
-            Console.WriteLine("Juan -> Hello World!");
+            Console.WriteLine("Juan -> Hello world!");
         }
     }
 }
