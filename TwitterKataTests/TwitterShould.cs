@@ -8,13 +8,18 @@ namespace TwitterKataTests
 {
     public class TwitterShould
     {
+        private Twitter twitter;
+        private StringWriter output;
+        public TwitterShould()
+        {
+            twitter = new Twitter();
+            output = new StringWriter();
+            Console.SetOut(output);
+        }
         [Fact]
         public void ShowNothingWhenGivenCarlos()
         {
             //Assert
-            Twitter twitter = new Twitter();
-            var output = new StringWriter();
-            Console.SetOut(output);
             Console.SetIn(new StringReader("Carlos"));
 
             //Act
@@ -29,9 +34,6 @@ namespace TwitterKataTests
         public void ShowMessageHelloWorldFromJuanWhenGivenJuan()
         {
             //Assert
-            Twitter twitter = new Twitter();
-            var output = new StringWriter();
-            Console.SetOut(output);
             Console.SetIn(new StringReader("Juan -> Hello world!"));
             twitter.Run();
             Console.SetIn(new StringReader("Juan"));
@@ -47,9 +49,6 @@ namespace TwitterKataTests
         public void ShowMessageHappyBirthdayFromAnaWhenGivenAna()
         {
             //Assert
-            Twitter twitter = new Twitter();
-            var output = new StringWriter();
-            Console.SetOut(output);
             Console.SetIn(new StringReader("Ana -> Happy birthday!"));
             twitter.Run();
             Console.SetIn(new StringReader("Ana"));
@@ -68,9 +67,6 @@ namespace TwitterKataTests
         public void ShowTheMessagesGivenByPeopleWhenInputtingTheirNames(string expected, string name, string post)
         {
             //Assert
-            Twitter twitter = new Twitter();
-            var output = new StringWriter();
-            Console.SetOut(output);
             Console.SetIn(new StringReader(post));
             twitter.Run();
             Console.SetIn(new StringReader(name));
@@ -87,9 +83,6 @@ namespace TwitterKataTests
         public void ShowTwoMessagesFromAUserGivenHisName()
         {
             //Assert
-            Twitter twitter = new Twitter();
-            var output = new StringWriter();
-            Console.SetOut(output);
             Console.SetIn(new StringReader("Vicen -> Vaya mañanita!"));
             twitter.Run();
             Console.SetIn(new StringReader("Vicen -> Hoy birras!"));
