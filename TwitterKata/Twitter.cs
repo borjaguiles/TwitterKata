@@ -6,7 +6,17 @@ namespace TwitterKata
     {
         public void Run()
         {
-            Console.WriteLine("Juan -> Hello world!");
+            var name = Console.ReadLine();
+
+            if (name == "Ana")
+            {
+                Console.WriteLine("Ana -> Happy birthday!");
+            }
+
+            if (name == "Juan")
+            {
+                Console.WriteLine("Juan -> Hello world!");
+            }
         }
     }
 }
