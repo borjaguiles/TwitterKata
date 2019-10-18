@@ -3,6 +3,5 @@
     public interface IMessage
     {
         string GetContentAndStamp();
-        string GetTimeSinceCreation();
     }
 }

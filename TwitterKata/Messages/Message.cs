@@ -20,7 +20,7 @@ namespace TwitterKata.Messages
             return _content + " " + GetTimeSinceCreation();
         }
 
-        public string GetTimeSinceCreation()
+        private string GetTimeSinceCreation()
         {
             var seconds = (long)DateTime.Now.Subtract(_timeStamp).TotalSeconds;
             if (seconds < 60)
