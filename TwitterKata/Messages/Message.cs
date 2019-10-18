@@ -17,10 +17,10 @@ namespace TwitterKata.Messages
 
         public string GetContentAndStamp()
         {
-            return _content + " " + GetTimeSinceCreation();
+            return _content + " " + GetTimeStringSinceCreation();
         }
 
-        private string GetTimeSinceCreation()
+        private string GetTimeStringSinceCreation()
         {
             var seconds = (long)DateTime.Now.Subtract(_timeStamp).TotalSeconds;
             if (seconds < 60)
@@ -42,6 +42,11 @@ namespace TwitterKata.Messages
 
             var days = seconds / 60 / 60 / 24;
             return "(" + days.ToString() + " days ago)";
+        }
+
+        public double GetSecondsSinceCreation()
+        {
+            return DateTime.Now.Subtract(_timeStamp).TotalMilliseconds;
         }
     }
 }

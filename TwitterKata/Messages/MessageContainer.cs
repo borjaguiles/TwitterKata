@@ -7,21 +7,26 @@ namespace TwitterKata.Messages
 {
     public class MessageContainer : IMessageContainer
     {
-        private List<Message> Message;
+        private List<Message> _messages;
 
         public MessageContainer()
         {
-            Message = new List<Message>();
+            _messages = new List<Message>();
         }
 
         public void AddMessage(string message)
         {
-            Message.Add(new Message(message));
+            _messages.Add(new Message(message));
         }
 
         public List<string> GetMessagesAsText()
         {
-            return Message.Select( s => s.GetContentAndStamp()).ToList();
+            return _messages.Select( s => s.GetContentAndStamp()).ToList();
+        }
+
+        public List<Message> GetMessages()
+        {
+            return _messages;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TwitterKata
 {
@@ -20,7 +21,7 @@ namespace TwitterKata
                 return new List<string>();
             }
 
-            return user.GetMessages();
+            return user.GetMessages().Select(s => s.GetContentAndStamp()).ToList();
         }
     }
 }

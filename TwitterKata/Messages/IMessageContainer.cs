@@ -6,5 +6,6 @@ namespace TwitterKata.Messages
     {
         void AddMessage(string message);
         List<string> GetMessagesAsText();
+        List<Message> GetMessages();
     }
 }
