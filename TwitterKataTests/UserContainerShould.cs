@@ -35,14 +35,14 @@ namespace TwitterKataTests
             userContainer.AddNewUser("Felipe");
 
             //Act
-            var resultFirst = userContainer.GetUser("Juan");
-            var resultSec = userContainer.GetUser("Carlos");
-            var resultThird = userContainer.GetUser("Felipe");
+            var resultFirst = userContainer.GetUser("Felipe"); 
+            var resultSec = userContainer.GetUser("Juan");
+            var resultThird = userContainer.GetUser("Carlos");
 
             //Assert
-            Assert.True(resultFirst.IsMyName("Juan"));
-            Assert.True(resultSec.IsMyName("Carlos"));
-            Assert.True(resultThird.IsMyName("Felipe"));
+            Assert.True(resultFirst.IsMyName("Felipe"));
+            Assert.True(resultSec.IsMyName("Juan"));
+            Assert.True(resultThird.IsMyName("Carlos"));
         }
     }
 }
