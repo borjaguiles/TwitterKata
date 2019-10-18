@@ -5,7 +5,7 @@ using TwitterKata.Messages;
 
 namespace TwitterKata
 {
-    public class User : IUser
+    public class User
     {
         private string _name;
         private IMessageContainer _messageContainer;

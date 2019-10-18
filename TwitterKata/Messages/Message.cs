@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TwitterKata.Messages
 {
-    public class Message : IMessage
+    public class Message
     {
         private string _content;
         private DateTime _timeStamp;

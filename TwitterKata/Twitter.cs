@@ -6,11 +6,13 @@ namespace TwitterKata
 {
     public class Twitter
     {
-        private readonly IUserContainer _userContainer;
+        private readonly IPostMessageUseCase _postMessageUseCase;
+        private readonly IShowMessagesUseCase _showMessagesUseCase;
 
-        public Twitter(IUserContainer userContainer)
+        public Twitter( IPostMessageUseCase postMessageUseCase, IShowMessagesUseCase showMessagesUseCase)
         {
-            _userContainer = userContainer;
+            _postMessageUseCase = postMessageUseCase;
+            _showMessagesUseCase = showMessagesUseCase;
         }
 
         public void Run()
@@ -19,33 +21,18 @@ namespace TwitterKata
 
             var action = GetActionFromCommand(command);
             var name = GetNameFromCommand(command);
-            var user = _userContainer.GetUser(name);
 
-            if (user == null)
-            {
-                user = _userContainer.AddNewUser(name);
-            }
 
             if (action == TwitterActions.PostMessage)
             {
-                PostMessage(command, user);
+                var message = string.Join(' ', command.Skip(2));
+                _postMessageUseCase.PostMessage(message, name);
             }
 
             if (action == TwitterActions.ShowUserMessages)
             {
-                ShowUserMessages(user);
+                _showMessagesUseCase.ShowUserMessages(name);
             }
-        }
-
-        private void ShowUserMessages(User user)
-        {
-            user.GetMessages().ForEach(Console.WriteLine);
-        }
-
-        private void PostMessage(string[] command, User user)
-        {
-            string message = string.Join(' ', command.Skip(2));
-            user.AddMessage(message);
         }
 
         private string GetNameFromCommand(string[] command)

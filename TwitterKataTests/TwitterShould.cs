@@ -16,7 +16,7 @@ namespace TwitterKataTests
         {
             _userContainer = new UserContainer();
 
-            twitter = new Twitter(_userContainer);
+            twitter = new Twitter(new PostMessageUseCase(_userContainer), new ShowMessagesUseCase(_userContainer));
             output = new StringWriter();
             Console.SetOut(output);
         }
