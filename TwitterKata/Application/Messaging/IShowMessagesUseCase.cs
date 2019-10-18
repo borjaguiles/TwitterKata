@@ -1,7 +1,9 @@
-﻿namespace TwitterKata
+﻿using System.Collections.Generic;
+
+namespace TwitterKata
 {
     public interface IShowMessagesUseCase
     {
-        void ShowUserMessages(string userName);
+        List<string> ShowUserMessages(string userName);
     }
 }

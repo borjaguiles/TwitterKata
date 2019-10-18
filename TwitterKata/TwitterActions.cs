@@ -8,6 +8,8 @@ namespace TwitterKata
     {
         Unknown = 0,
         PostMessage = 1,
-        ShowUserMessages = 2
+        ShowUserMessages = 2,
+        Follow = 3,
+        ShowUserWall = 4
     }
 }

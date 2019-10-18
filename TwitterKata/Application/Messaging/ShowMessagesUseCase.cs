@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TwitterKata
 {
@@ -10,16 +11,16 @@ namespace TwitterKata
             _userContainer = userContainer;
         }
 
-        public void ShowUserMessages(string userName)
+        public List<string> ShowUserMessages(string userName)
         {
             var user = _userContainer.GetUser(userName);
 
             if (user == null)
             {
-                return;
+                return new List<string>();
             }
 
-            user.GetMessages().ForEach(Console.WriteLine);
+            return user.GetMessages();
         }
     }
 }

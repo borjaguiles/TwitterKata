@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
+using Moq;
 using TwitterKata;
+using TwitterKata.Application.Messaging;
+using TwitterKata.Application.Users;
 using Xunit;
 
 namespace TwitterKataTests
@@ -12,11 +16,15 @@ namespace TwitterKataTests
         private Twitter twitter;
         private StringWriter output;
         private UserContainer _userContainer;
+        private IShowMessagesUseCase _showMessagesUseCase;
+        private Mock<IShowWallUseCase> _showWallUseCase;
+        private Mock<IFollowUseCase> _followUseCase;
         public TwitterShould()
         {
             _userContainer = new UserContainer();
-
-            twitter = new Twitter(new PostMessageUseCase(_userContainer), new ShowMessagesUseCase(_userContainer));
+            _showWallUseCase = new Mock<IShowWallUseCase>();
+            _followUseCase = new Mock<IFollowUseCase>();
+            twitter = new Twitter(new PostMessageUseCase(_userContainer), new ShowMessagesUseCase(_userContainer), _followUseCase.Object, _showWallUseCase.Object);
             output = new StringWriter();
             Console.SetOut(output);
         }
@@ -111,6 +119,32 @@ namespace TwitterKataTests
             twitter.Run();
             Thread.Sleep(1000);
             Console.SetIn(new StringReader("Juan"));
+            twitter.Run();
+
+            //Assert
+            Assert.Equal(expected, output.ToString());
+        }
+
+        [Fact]
+        public void ShowTheChosenUserMessagesAndTheMessagesOfThoseHeFollow()
+        {
+            //Assert
+            _showWallUseCase.Setup(s => s.ShowWall("Juan")).Returns(new List<string>()
+            {
+                "Juan - Hola (0 seconds ago)", "Alicia - Nope (0 seconds ago)"
+            });
+            twitter = new Twitter(new PostMessageUseCase(_userContainer), new ShowMessagesUseCase(_userContainer), _followUseCase.Object, _showWallUseCase.Object);
+            string expected = "Juan - Hola (0 seconds ago)" + "\r\n" 
+                                + "Alicia - Nope (0 seconds ago)\r\n";
+            Console.SetIn(new StringReader("Juan -> Hola"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Alicia -> Nope"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Juan follow Alicia"));
+            twitter.Run();
+            Console.SetIn(new StringReader("Juan wall"));
+
+            //Act
             twitter.Run();
 
             //Assert
