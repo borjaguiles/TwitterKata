@@ -6,7 +6,12 @@ namespace TwitterKata
 {
     public class Twitter
     {
-        private readonly UserContainer _userContainer = new UserContainer();
+        private readonly IUserContainer _userContainer;
+
+        public Twitter(IUserContainer userContainer)
+        {
+            _userContainer = userContainer;
+        }
 
         public void Run()
         {
@@ -32,18 +37,18 @@ namespace TwitterKata
             }
         }
 
-        private static void ShowUserMessages(User user)
+        private void ShowUserMessages(User user)
         {
             user.GetMessages().ForEach(Console.WriteLine);
         }
 
-        private static void PostMessage(string[] command, User user)
+        private void PostMessage(string[] command, User user)
         {
             string message = string.Join(' ', command.Skip(2));
             user.AddMessage(message);
         }
 
-        private static string GetNameFromCommand(string[] command)
+        private string GetNameFromCommand(string[] command)
         {
             return command[0];
         }

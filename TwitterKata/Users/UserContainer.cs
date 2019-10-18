@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TwitterKata.Messages;
 
 namespace TwitterKata
 {
@@ -15,7 +16,8 @@ namespace TwitterKata
 
         public User AddNewUser(string name)
         {
-            var user = new User(name);
+            var user = new User();
+            user.SetName(name);
             _userList.Add(user);
             return user;
         }

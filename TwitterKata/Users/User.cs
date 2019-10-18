@@ -1,33 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TwitterKata.Messages;
 
 namespace TwitterKata
 {
     public class User : IUser
     {
-        private string Name;
-        private List<string> Messages;
+        private string _name;
+        private IMessageContainer _messageContainer;
 
-        public User(string name)
+        public User()
         {
-            Name = name;
-            Messages = new List<string>();
+            _messageContainer = new MessageContainer();
+        }
+
+        public User(IMessageContainer messageContainer)
+        {
+            _messageContainer = messageContainer;
+        }
+
+        public void SetName(string name)
+        {
+            _name = name;
         }
 
         public void AddMessage(string message)
         {
-            Messages.Add(message);
+            _messageContainer.AddMessage(message);
         }
 
         public bool IsMyName(string name)
         {
-            return Name == name;
+            return _name == name;
         }
 
         public List<string> GetMessages()
         {
-            return Messages;
+            return _messageContainer.GetMessagesAsText();
         }
     }
 }

@@ -8,8 +8,11 @@ namespace TwitterKata
     {
         static void Main(string[] args)
         {
-            Twitter twitter = new Twitter();
-            twitter.Run();
+            Twitter twitter = new Twitter(new UserContainer());
+            while (true)
+            {
+                twitter.Run();
+            }
         }
     }
 }

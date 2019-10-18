@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
 using TwitterKata;
 using Xunit;
@@ -10,9 +11,12 @@ namespace TwitterKataTests
     {
         private Twitter twitter;
         private StringWriter output;
+        private UserContainer _userContainer;
         public TwitterShould()
         {
-            twitter = new Twitter();
+            _userContainer = new UserContainer();
+
+            twitter = new Twitter(_userContainer);
             output = new StringWriter();
             Console.SetOut(output);
         }
@@ -31,9 +35,9 @@ namespace TwitterKataTests
         }
 
         [Theory]
-        [InlineData("Hello world!", "Juan", "Juan -> Hello world!")]
-        [InlineData("Happy birthday!", "Ana", "Ana -> Happy birthday!")]
-        [InlineData("New album today", "Oscar", "Oscar -> New album today")]
+        [InlineData("Hello world! (0 seconds ago)", "Juan", "Juan -> Hello world!")]
+        [InlineData("Happy birthday! (0 seconds ago)", "Ana", "Ana -> Happy birthday!")]
+        [InlineData("New album today (0 seconds ago)", "Oscar", "Oscar -> New album today")]
         public void ShowTheMessagesGivenByPeopleWhenInputtingTheirNames(string expected, string name, string post)
         {
             //Assert
@@ -62,8 +66,8 @@ namespace TwitterKataTests
             Console.SetIn(new StringReader("Vicen -> Los domingos me suelo jurar..."));
             twitter.Run();
             Console.SetIn(new StringReader("Vicen"));
-            string expected = "Vaya mañanita!" + "\r\n" + "Hoy birras!" + "\r\n" + "Vaya resaca!" + "\r\n" +
-                              "Los domingos me suelo jurar..." + "\r\n";
+            string expected = "Vaya mañanita! (0 seconds ago)" + "\r\n" + "Hoy birras! (0 seconds ago)" + "\r\n" + "Vaya resaca! (0 seconds ago)" + "\r\n" +
+                              "Los domingos me suelo jurar... (0 seconds ago)" + "\r\n";
             //Act
             twitter.Run();
 
@@ -75,7 +79,7 @@ namespace TwitterKataTests
         public void ShowMessagesFromAnyUserGivenItsName()
         {
             //Assert
-            string expected = "Hola" + "\r\n" + "Adios" + "\r\n" + "Que tal?" + "\r\n" + "Gracias" + "\r\n";
+            string expected = "Hola (0 seconds ago)" + "\r\n" + "Adios (0 seconds ago)" + "\r\n" + "Que tal? (0 seconds ago)" + "\r\n" + "Gracias (0 seconds ago)" + "\r\n";
             Console.SetIn(new StringReader("Juan -> Hola"));
             twitter.Run();
             Console.SetIn(new StringReader("Ana -> Adios"));
@@ -92,6 +96,21 @@ namespace TwitterKataTests
             Console.SetIn(new StringReader("Lucas"));
             twitter.Run();
             Console.SetIn(new StringReader("Maite"));
+            twitter.Run();
+
+            //Assert
+            Assert.Equal(expected, output.ToString());
+        }
+
+        [Fact]
+        public void ShowTheTimePassedSinceTheMessageWasPostedWhenViewingAUserMessages()
+        {
+            //Assert
+            string expected = "Hola (1 seconds ago)" + "\r\n" ;
+            Console.SetIn(new StringReader("Juan -> Hola"));
+            twitter.Run();
+            Thread.Sleep(1000);
+            Console.SetIn(new StringReader("Juan"));
             twitter.Run();
 
             //Assert
